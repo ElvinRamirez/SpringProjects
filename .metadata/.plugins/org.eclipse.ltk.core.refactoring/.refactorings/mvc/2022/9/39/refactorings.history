@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;models&apos; to &apos;com.codingdojo.mvc.models&apos;&#x0A;- Original project: &apos;mvc&apos;&#x0A;- Original element: &apos;mvc/src/main/java/models&apos;&#x0A;- Renamed element: &apos;mvc/src/main/java/com.codingdojo.mvc.models&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;models&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;models" name="com.codingdojo.mvc.models" qualified="false" references="true" stamp="1664052975237" textual="false" version="1.0"/>
+</session>

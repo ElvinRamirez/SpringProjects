@@ -1,0 +1,93 @@
+package com.codingdojo.exam.controllers;
+
+import java.awt.print.Book;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
+import com.codingdojo.exam.models.LoginUser;
+import com.codingdojo.exam.models.User;
+import com.codingdojo.exam.services.UserService;
+
+
+
+
+@Controller
+public class MainController {
+	
+	@Autowired
+	private UserService userServ;
+	
+
+	@GetMapping("/")
+    public String index(Model model) {
+    
+        // Bind empty User and LoginUser objects to the JSP
+        // to capture the form input
+        model.addAttribute("newUser", new User());
+        model.addAttribute("newLogin", new LoginUser());
+        return "index.jsp";
+    }
+	
+    @PostMapping("/register")
+    public String register(@Valid @ModelAttribute("newUser") User newUser, 
+            BindingResult result, Model model, HttpSession session) {
+        
+        // TO-DO Later -- call a register method in the service 
+        // to do some extra validations and create a new user!
+        User u = userServ.register(newUser, result);
+        if(result.hasErrors()) {
+        		//for model.addAttribute, left the key/left side goes in the jsp form, and hte right is the piece of info from the model
+            model.addAttribute("newLogin", new LoginUser());
+            return "index.jsp";
+        }
+        
+        //If No errors! 
+        // TO-DO Later: Store their ID from the DB in session, 
+        // in other words, log them in.
+        session.setAttribute("loggedIn",u.getId());
+    
+        return "redirect:/books";
+    }
+    
+
+    @PostMapping("/login")
+    public String login(@Valid @ModelAttribute("newLogin") LoginUser newLogin, 
+            BindingResult result, Model model, HttpSession session) {
+        
+        // Add once service is implemented:
+        // User user = userServ.login(newLogin, result);
+    	User loggingIn = userServ.login(newLogin, result);
+    	
+        if(result.hasErrors()) {
+            model.addAttribute("newUser", new User());
+            return "index.jsp";
+        }
+        //Session name should be the same across the board
+        session.setAttribute("loggedIn", loggingIn.getId());
+   
+    
+        return "redirect:/books";
+    }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+    	session.removeAttribute("loggedIn");
+    	return "redirect:/";
+    }
+    
+    //create mapping for displaying, adding books, editing, deleting
+    
+    }
+
