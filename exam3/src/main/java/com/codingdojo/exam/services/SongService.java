@@ -10,14 +10,17 @@ import org.springframework.stereotype.Service;
 
 
 import com.codingdojo.exam.models.Song;
+import com.codingdojo.exam.models.User;
 import com.codingdojo.exam.repositories.SongRepository;
+import com.codingdojo.exam.repositories.UserRepository;
 
 @Service
 public class SongService {
 	
 	@Autowired
 	private SongRepository songRepo;
-
+	@Autowired
+	private UserRepository userRepo;
 	
 	public Song findById(Long id) {
 		
@@ -44,7 +47,6 @@ public class SongService {
 	       //Takes an instance of a song
 	        
 	      songRepo.increaseTimesEdited(title,genre,lyrics,id);
-	      
 	}
 	
 	
@@ -56,5 +58,19 @@ public class SongService {
 	public void destroy(Long id) {
 		songRepo.deleteById(id);
 	}
+	
+	//Relationship between user & song
+	public User songUserRel(Long userId, Long songId) {
+	    User thisUser = userRepo.findUserById(userId);
+	    Song thisSong = songRepo.findSongById(songId);
+	    thisUser.getSongs().add(thisSong);
+	    userRepo.save(thisUser);
+	    return thisUser;
+	    
+	}
+	
+
+
+	
 	
 }

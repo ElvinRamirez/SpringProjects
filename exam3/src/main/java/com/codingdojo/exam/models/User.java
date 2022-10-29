@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -59,8 +62,18 @@ public class User {
     
     //Relationship
   
-    @OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    //@OneToMany(mappedBy="user", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    //private List<Song> songs;
+    
+    //MAnytoMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name= "users_songs",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "song_id")
+            )
     private List<Song> songs;
+    
    
     public User() {}
     

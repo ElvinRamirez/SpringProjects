@@ -8,4 +8,6 @@ import com.codingdojo.exam.models.User;
 
 public interface UserRepository extends CrudRepository<User, Long>{
 	Optional<User> findByEmail(String email);
+	
+	User findUserById(Long userId);
 }

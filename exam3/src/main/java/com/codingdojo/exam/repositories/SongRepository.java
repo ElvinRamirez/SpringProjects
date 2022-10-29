@@ -17,7 +17,7 @@ public interface SongRepository extends CrudRepository<Song, Long> {
 	
 	Boolean existsByTitle(String title);
 	
-	
+	Song findSongById(Long songId);
 	
 	//JPQL QUEry
 	@Transactional

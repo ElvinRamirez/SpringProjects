@@ -1,8 +1,9 @@
 package com.codingdojo.exam.models;
 
 
-import java.io.Serializable;
+
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +11,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -37,7 +40,9 @@ public class Song  {
 	@Size(min=3, message="Title is required")
     private String title;
 	
-	@NotBlank
+
+
+    @NotBlank
 	@Size(min=3, message="Genre is required")
     private String genre;
 	
@@ -66,10 +71,20 @@ public class Song  {
 	
 	//Relationship
 	  
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private User user;
+   // @ManyToOne(fetch = FetchType.LAZY)
+   // @JoinColumn(name="user_id")
+    //private User user;
     
+	
+	//MAnytoMany
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+	        name= "users_songs",
+	        joinColumns = @JoinColumn(name = "song_id"),
+	        inverseJoinColumns = @JoinColumn(name = "user_id")
+	        )
+	private List<User> users;
+	
     public Song() {
         super();
     }
@@ -80,8 +95,7 @@ public class Song  {
         this.lyrics = lyrics;
         this.timesEdited = timesEdited;
     }
-   
-    
+
     @PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
@@ -139,13 +153,6 @@ public class Song  {
 		this.updatedAt = updatedAt;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 
 	public Integer getTimesEdited() {
 		return timesEdited;
@@ -154,6 +161,16 @@ public class Song  {
 	public void setTimesEdited(int timesEdited) {
 		this.timesEdited = timesEdited;
 	}
+	
+	public List<User> getUsers() {
+	     return users;
+	}
+
+	public void setUsers(List<User> users) {
+	     this.users = users;
+	}
+
+	
 
 	//public Long getUpdatedBy() {
 	//    return updatedBy;

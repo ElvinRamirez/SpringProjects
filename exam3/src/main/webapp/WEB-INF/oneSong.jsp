@@ -23,7 +23,9 @@
 		<h1><c:out value="${song.title}"/></h1>
 	</div>
 	<div>
-		<h3>(Started by <c:out value="${song.user.name}"/>)</h3>
+		<c:forEach var="eachsong" items="${songs}">
+			<h3>(Started by <c:out value="${eachsong.users.name}"/>)</h3>
+		</c:forEach>
 	</div>
 	<div>
 		<h4>Genre: <c:out value="${song.genre}"/></h4>
